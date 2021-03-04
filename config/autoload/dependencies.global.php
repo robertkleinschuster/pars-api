@@ -25,8 +25,8 @@ return [
             // Fully\Qualified\ClassName::class => Fully\Qualified\FactoryName::class,
             \Pars\Api\Application::class => \Pars\Api\ApplicationFactory::class,
             \Pars\Api\ApplicationContainer::class => \Pars\Api\ApplicationContainerFactory::class,
-            \Pars\Api\Cms\Page\PageHandler::class => \Pars\Api\Base\ApiHandlerFactory::class,
-            \Pars\Api\Base\DefaultApiHandler::class => \Pars\Api\Base\ApiHandlerFactory::class
+            \Pars\Api\Base\GetApiHandler::class => \Pars\Api\Base\ApiHandlerFactory::class,
+            \Pars\Api\Base\PostApiHandler::class => \Pars\Api\Base\ApiHandlerFactory::class,
         ],
     ],
 ];

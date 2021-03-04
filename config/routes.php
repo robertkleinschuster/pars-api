@@ -39,5 +39,6 @@ use Psr\Container\ContainerInterface;
  */
 
 return static function (Application $app, MiddlewareFactory $factory, ContainerInterface $container): void {
-    $app->get(\Pars\Api\Base\DefaultApiHandler::getRoute(), \Pars\Api\Base\DefaultApiHandler::class, 'api');
+    $app->get(\Pars\Api\Base\GetApiHandler::getRoute(), \Pars\Api\Base\GetApiHandler::class);
+    $app->post(\Pars\Api\Base\PostApiHandler::getRoute(), \Pars\Api\Base\PostApiHandler::class);
 };
