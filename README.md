@@ -1,7 +1,7 @@
-# pars-{component}
+# pars-api
 
-[![Build Status](https://travis-ci.com/robertkleinschuster/pars-{component}.svg?branch=master)](https://travis-ci.com/robertkleinschuster/pars-{component})
-[![Coverage Status](https://coveralls.io/repos/github/robertkleinschuster/pars-{component}/badge.svg?branch=master)](https://coveralls.io/github/robertkleinschuster/pars-{component}?branch=master)
+[![Build Status](https://travis-ci.com/robertkleinschuster/pars-api.svg?branch=master)](https://travis-ci.com/robertkleinschuster/pars-api)
+[![Coverage Status](https://coveralls.io/repos/github/robertkleinschuster/pars-api/badge.svg?branch=master)](https://coveralls.io/github/robertkleinschuster/pars-api?branch=master)
 
 This library provides …
 
@@ -10,14 +10,14 @@ This library provides …
 Run the following to install this library:
 
 ```bash
-$ composer require pars/pars-{component}
+$ composer require pars/pars-api
 ```
 
 ## Documentation
 
-Browse the documentation online at https://docs.parsphp.org/pars-{component}/
+Browse the documentation online at https://docs.parsphp.org/pars-api/
 
 ## Support
 
-* [Issues](https://github.com/robertkleinschuster/pars-{component}/issues/)
+* [Issues](https://github.com/robertkleinschuster/pars-api/issues/)
 * [Forum](https://discourse.parsphp.org/)
