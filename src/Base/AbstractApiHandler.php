@@ -9,6 +9,8 @@ use Niceshops\Bean\Finder\BeanFinderAwareTrait;
 use Niceshops\Bean\Processor\BeanProcessorAwareInterface;
 use Niceshops\Bean\Processor\BeanProcessorAwareTrait;
 use Pars\Helper\Parameter\IdParameter;
+use Pars\Helper\Parameter\InvalidParameterException;
+use Pars\Helper\Parameter\PaginationParameter;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
@@ -78,19 +80,33 @@ abstract class AbstractApiHandler implements RequestHandlerInterface, BeanFinder
         }
         $id = new IdParameter();
         if ($request->getAttribute($id::name(), false)) {
-            $id->fromString($request->getAttribute($id::name()));
+            try {
+                $id->fromString($request->getAttribute($id::name()));
+            } catch (InvalidParameterException $exception) {
+
+            }
         }
-        $this->handleFinder($id);
+        $data = $request->getQueryParams();
+        $pagination = new PaginationParameter();
+        if (isset($data[$pagination::name()])) {
+            $pagination->fromString($data[$pagination::name()]);
+        }
+
+        $this->handleFinder($id, $pagination);
         $this->handleRequest($request);
         return new JsonResponse($this->getBeanFinder()->getBeanList(true)->toArray(true));
     }
 
     /**
      * @param IdParameter $id
+     * @throws \Niceshops\Core\Exception\AttributeNotFoundException
      */
-    protected function handleFinder(IdParameter $id)
+    protected function handleFinder(IdParameter $id, PaginationParameter $paginationParameter)
     {
         $this->getBeanFinder()->filter($id->getAttributes());
+        if ($paginationParameter->hasLimit() && $paginationParameter->hasPage()) {
+            $this->getBeanFinder()->limit($paginationParameter->getLimit(), $paginationParameter->getPage());
+        }
     }
 
     /**
