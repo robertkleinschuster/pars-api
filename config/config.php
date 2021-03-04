@@ -31,7 +31,6 @@ $aggregator = new ConfigAggregator([
     \Mezzio\Helper\ConfigProvider::class,
     \Mezzio\ConfigProvider::class,
     \Mezzio\Router\ConfigProvider::class,
-    \Mezzio\Hal\ConfigProvider::class,
 
     // Include cache configuration
     new ArrayProvider($cacheConfig),
