@@ -3,6 +3,7 @@
 namespace Pars\Api\Base;
 
 use Laminas\Db\Adapter\AdapterInterface;
+use Mezzio\Helper\UrlHelper;
 use Psr\Container\ContainerInterface;
 
 /**
@@ -18,7 +19,11 @@ class ApiHandlerFactory
      */
     public function __invoke(ContainerInterface $container, string $requestedName)
     {
-        return new $requestedName($container->get(AdapterInterface::class), $container->get('config'));
+        return new $requestedName(
+            $container->get(AdapterInterface::class),
+            $container->get('config'),
+            $container->get(UrlHelper::class)
+        );
     }
 
 }

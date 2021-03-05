@@ -4,6 +4,7 @@ namespace Pars\Api\Base;
 
 use Laminas\Db\Adapter\Adapter;
 use Laminas\Diactoros\Response\JsonResponse;
+use Mezzio\Helper\UrlHelper;
 use Niceshops\Bean\Finder\BeanFinderAwareInterface;
 use Niceshops\Bean\Finder\BeanFinderAwareTrait;
 use Niceshops\Bean\Processor\BeanProcessorAwareInterface;
@@ -37,14 +38,27 @@ abstract class AbstractApiHandler implements RequestHandlerInterface, BeanFinder
     protected array $config;
 
     /**
+     * @var UrlHelper
+     */
+    protected UrlHelper $urlHelper;
+
+    /**
+     * @var ResponseData
+     */
+    protected ResponseData $responseData;
+
+    /**
      * AbstractApiHandler constructor.
      * @param Adapter $adapter
      * @param array $config
+     * @param UrlHelper $urlHelper
      */
-    public function __construct(Adapter $adapter, array $config)
+    public function __construct(Adapter $adapter, array $config, UrlHelper $urlHelper)
     {
         $this->adapter = $adapter;
         $this->config = $config;
+        $this->urlHelper = $urlHelper;
+        $this->responseData = new ResponseData();
     }
 
     /**
@@ -75,8 +89,9 @@ abstract class AbstractApiHandler implements RequestHandlerInterface, BeanFinder
             $this->config['api']['finder'][$request->getAttribute(self::ATTRIBUTE_TABLE)] ?? null,
             $this->config['api']['processor'][$request->getAttribute(self::ATTRIBUTE_TABLE)] ?? null
         );
+        $this->getResponseData()->links['resources'] = array_map(function($x){return $this->urlHelper->generate(null, [self::ATTRIBUTE_TABLE => $x, IdParameter::name() => null]);}, array_keys($this->config['api']['finder']));
         if (!$this->hasBeanFinder()) {
-            return new JsonResponse(array_keys($this->config['api']['finder']));
+            return $this->createResponse($request);
         }
         $id = new IdParameter();
         if ($request->getAttribute($id::name(), false)) {
@@ -91,30 +106,72 @@ abstract class AbstractApiHandler implements RequestHandlerInterface, BeanFinder
         if (isset($data[$pagination::name()])) {
             $pagination->fromString($data[$pagination::name()]);
         }
+        $this->initFinder($id, $pagination);
+        $this->loadData($request);
+        $this->submitData($request);
+        return $this->createResponse($request);
+    }
 
-        $this->handleFinder($id, $pagination);
-        $this->handleRequest($request);
-        return new JsonResponse($this->getBeanFinder()->getBeanList(true)->toArray(true));
+    /**
+     * @return ResponseData
+     */
+    public function getResponseData(): ResponseData
+    {
+        return $this->responseData;
     }
 
     /**
      * @param IdParameter $id
+     * @param PaginationParameter $paginationParameter
      * @throws \Niceshops\Core\Exception\AttributeNotFoundException
      */
-    protected function handleFinder(IdParameter $id, PaginationParameter $paginationParameter)
+    protected function initFinder(IdParameter $id, PaginationParameter $paginationParameter)
     {
         $this->getBeanFinder()->filter($id->getAttributes());
-        if ($paginationParameter->hasLimit() && $paginationParameter->hasPage()) {
-            $this->getBeanFinder()->limit($paginationParameter->getLimit(), $paginationParameter->getPage());
+        $this->getResponseData()->count = $this->getBeanFinder()->count();
+        $routeParams = [];
+        $queryParams = [];
+        if (count($id->getAttributes())) {
+            $routeParams[$id::name()] = $id->toString();
         }
+        if ($paginationParameter->hasLimit() && $paginationParameter->hasPage()) {
+            $queryParams[$paginationParameter::name()] = $paginationParameter->toString();
+            $this->getResponseData()->limit = $paginationParameter->getLimit();
+            $this->getResponseData()->page = $paginationParameter->getPage();
+            $this->getResponseData()->pageCount = ceil(
+                $this->getResponseData()->count / $this->getResponseData()->limit
+            );
+            $this->getBeanFinder()->limit(
+                $paginationParameter->getLimit(),
+                ($paginationParameter->getPage() - 1) * $paginationParameter->getLimit()
+            );
+        }
+        $this->getResponseData()->links['self'] = $this->urlHelper->generate(null, $routeParams, $queryParams);
     }
 
     /**
      * @param ServerRequestInterface $request
      */
-    protected function handleRequest(ServerRequestInterface $request)
+    protected function loadData(ServerRequestInterface $request)
+    {
+        $this->getResponseData()->data = $this->getBeanFinder()->getBeanList(true)->toArray(true);
+    }
+
+    /**
+     * @param ServerRequestInterface $request
+     */
+    protected function submitData(ServerRequestInterface $request)
     {
 
+    }
+
+    /**
+     * @param ServerRequestInterface $request
+     * @return JsonResponse
+     */
+    protected function createResponse(ServerRequestInterface $request): JsonResponse
+    {
+        return new JsonResponse($this->getResponseData());
     }
 
     /**
