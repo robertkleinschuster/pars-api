@@ -188,7 +188,7 @@ abstract class AbstractApiHandler implements RequestHandlerInterface, BeanFinder
      */
     protected function createResponse(ServerRequestInterface $request): JsonResponse
     {
-        return new JsonResponse($this->getResponseData());
+        return (new JsonResponse($this->getResponseData()))->withHeader('Access-Control-Allow-Origin', 'http://localhost:8080');
     }
 
     /**

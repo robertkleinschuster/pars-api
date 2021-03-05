@@ -17,6 +17,6 @@ class ApiErrorResponseGenerator
     ) : ResponseInterface {
         $responseData = new ResponseData();
         $responseData->error  = $e->getMessage() . ' in ' . $e->getFile() . ':' . $e->getLine();
-        return new JsonResponse($responseData, 500);
+        return (new JsonResponse($responseData, 500))->withHeader('Access-Control-Allow-Origin', '*');
     }
 }

@@ -45,4 +45,9 @@ return [
     'db' => [
         'profiler' => true
     ],
+    'api' => [
+        'key' => [
+            'enabled' => false
+        ],
+    ],
 ];

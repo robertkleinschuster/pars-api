@@ -9,6 +9,9 @@ return [
             'menu' => \Pars\Model\Cms\Menu\CmsMenuBeanFinder::class,
             'config' => \Pars\Model\Config\ConfigBeanFinder::class,
             'locale' => \Pars\Model\Localization\Locale\LocaleBeanFinder::class,
-        ]
+        ],
+        'key' => [
+          'enabled' => true
+        ],
     ],
 ];

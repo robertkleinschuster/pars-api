@@ -15,7 +15,7 @@ class ApiNotFoundHandler implements RequestHandlerInterface
     {
         $responseData = new ResponseData();
         $responseData->error = 'Not Found';
-        return new JsonResponse($responseData, 404);
+        return (new JsonResponse($responseData, 404))->withHeader('Access-Control-Allow-Origin', '*');;
     }
 
 }

@@ -29,6 +29,7 @@ return [
             \Pars\Api\Base\PostApiHandler::class => \Pars\Api\Base\ApiHandlerFactory::class,
             \Mezzio\Handler\NotFoundHandler::class           => \Pars\Api\Base\ApiNotFoundHandlerFactory::class,
             \Mezzio\Middleware\ErrorResponseGenerator::class => \Pars\Api\Base\ApiErrorResponseGeneratorFactory::class,
+            \Pars\Api\Base\ApiKeyMiddleware::class => \Pars\Api\Base\ApiKeyMiddlewareFactory::class
         ],
     ],
 ];

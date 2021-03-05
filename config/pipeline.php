@@ -76,7 +76,7 @@ return function (Application $app, MiddlewareFactory $factory, ContainerInterfac
     $app->pipe(\Pars\Core\Localization\LocalizationMiddleware::class);
     $app->pipe(\Pars\Core\Translation\TranslatorMiddleware::class);
     $app->pipe(\Pars\Core\Deployment\DeploymentMiddleware::class);
-
+    $app->pipe(\Pars\Api\Base\ApiKeyMiddleware::class);
     // Register the dispatch middleware in the middleware pipeline
     $app->pipe(DispatchMiddleware::class);
 
