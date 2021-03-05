@@ -17,6 +17,8 @@ class ApiKeyMiddleware implements MiddlewareInterface
     protected array $config;
     protected Adapter $adapter;
 
+    public const ATTRIBUTE_CORS = 'cors';
+
     /**
      * ApiKeyMiddleware constructor.
      * @param array $config
@@ -51,7 +53,7 @@ class ApiKeyMiddleware implements MiddlewareInterface
             $apiKeyBean = $finder->getBean();
             $sentkey = $request->getHeaderLine('api-key');
             if ($apiKeyBean->ApiKey_Key == $sentkey) {
-                return $handler->handle($request);
+                return $handler->handle($request->withAttribute(self::ATTRIBUTE_CORS, $apiKeyBean->ApiKey_Host));
             } else {
                 $responseData->error = 'Invalid API Key';
             }
