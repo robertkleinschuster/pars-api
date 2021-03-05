@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 use Mezzio\Application;
 use Mezzio\MiddlewareFactory;
-use Pars\Helper\Parameter\IdParameter;
 use Psr\Container\ContainerInterface;
 
 /**
@@ -39,6 +38,8 @@ use Psr\Container\ContainerInterface;
  */
 
 return static function (Application $app, MiddlewareFactory $factory, ContainerInterface $container): void {
+    $app->post('/contact', \Pars\Api\Form\ContactFormHandler::class);
+
     $app->get(\Pars\Api\Base\GetApiHandler::getRoute(), \Pars\Api\Base\GetApiHandler::class);
     $app->post(\Pars\Api\Base\PostApiHandler::getRoute(), \Pars\Api\Base\PostApiHandler::class);
 };

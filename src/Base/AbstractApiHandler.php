@@ -190,7 +190,7 @@ abstract class AbstractApiHandler implements RequestHandlerInterface, BeanFinder
     {
         return (new JsonResponse($this->getResponseData()))->withHeader(
             'Access-Control-Allow-Origin',
-            $request->getAttribute(ApiKeyMiddleware::ATTRIBUTE_CORS)
+            $request->getAttribute(ApiKeyMiddleware::ATTRIBUTE_CORS) ?? '*'
         );
     }
 
