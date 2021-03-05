@@ -27,6 +27,7 @@ return [
             \Pars\Api\ApplicationContainer::class => \Pars\Api\ApplicationContainerFactory::class,
             \Pars\Api\Base\GetApiHandler::class => \Pars\Api\Base\ApiHandlerFactory::class,
             \Pars\Api\Base\PostApiHandler::class => \Pars\Api\Base\ApiHandlerFactory::class,
+            \Mezzio\Handler\NotFoundHandler::class           => \Pars\Api\Base\ApiNotFoundHandlerFactory::class,
             \Mezzio\Middleware\ErrorResponseGenerator::class => \Pars\Api\Base\ApiErrorResponseGeneratorFactory::class,
         ],
     ],
