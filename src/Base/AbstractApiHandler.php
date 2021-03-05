@@ -95,6 +95,7 @@ abstract class AbstractApiHandler implements RequestHandlerInterface, BeanFinder
             'list' => $this->urlHelper->generate(null, [self::ATTRIBUTE_TABLE => '{resource}', IdParameter::name() => null]),
             'entry' => $this->urlHelper->generate(null, [self::ATTRIBUTE_TABLE => '{resource}', IdParameter::name() => '{field}:{value}']),
             'pagination' => $this->urlHelper->generate(null, [self::ATTRIBUTE_TABLE => '{resource}', IdParameter::name() => null], [PaginationParameter::name() => PaginationParameter::ATTRIBUTE_LIMIT . ':{limit};' . PaginationParameter::ATTRIBUTE_PAGE . ':{page}']),
+            'create' => $this->urlHelper->generate(null, [self::ATTRIBUTE_TABLE => '{resource}', IdParameter::name() => 'create']),
         ];
 
         if (!$this->hasBeanFinder()) {
@@ -161,7 +162,16 @@ abstract class AbstractApiHandler implements RequestHandlerInterface, BeanFinder
      */
     protected function loadData(ServerRequestInterface $request)
     {
-        $this->getResponseData()->data = $this->getBeanFinder()->getBeanList(true)->toArray(true);
+        if ($request->getAttribute(IdParameter::name()) == 'create') {
+            $this->getResponseData()->data = $this->getBeanFinder()->getBeanFactory()->getEmptyBean([])->toArray(true);
+        } else {
+            if ($this->getResponseData()->count == 1) {
+                $this->getResponseData()->data = $this->getBeanFinder()->getBean(true)->toArray(true);
+            } else {
+                $beanList = $this->getBeanFinder()->getBeanList(true);
+                $this->getResponseData()->data = $beanList->toArray(true);
+            }
+        }
     }
 
     /**
