@@ -90,6 +90,13 @@ abstract class AbstractApiHandler implements RequestHandlerInterface, BeanFinder
             $this->config['api']['processor'][$request->getAttribute(self::ATTRIBUTE_TABLE)] ?? null
         );
         $this->getResponseData()->links['resources'] = array_map(function($x){return $this->urlHelper->generate(null, [self::ATTRIBUTE_TABLE => $x, IdParameter::name() => null]);}, array_keys($this->config['api']['finder']));
+
+        $this->getResponseData()->links['templates'] = [
+            'list' => $this->urlHelper->generate(null, [self::ATTRIBUTE_TABLE => '{resource}', IdParameter::name() => null]),
+            'entry' => $this->urlHelper->generate(null, [self::ATTRIBUTE_TABLE => '{resource}', IdParameter::name() => '{field}:{value}']),
+            'pagination' => $this->urlHelper->generate(null, [self::ATTRIBUTE_TABLE => '{resource}', IdParameter::name() => null], [PaginationParameter::name() => PaginationParameter::ATTRIBUTE_LIMIT . ':{limit};' . PaginationParameter::ATTRIBUTE_PAGE . ':{page}']),
+        ];
+
         if (!$this->hasBeanFinder()) {
             return $this->createResponse($request);
         }
