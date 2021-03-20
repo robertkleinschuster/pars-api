@@ -136,6 +136,12 @@ abstract class AbstractApiHandler implements RequestHandlerInterface, BeanFinder
     protected function initFinder(IdParameter $id, PaginationParameter $paginationParameter)
     {
         $this->getBeanFinder()->filter($id->getAttributes());
+        $finder = $this->getBeanFinder();
+        if ($id->hasAttribute('Locale_Code')) {
+            if (method_exists($finder, 'setLocale_Code')) {
+                $finder->setLocale_Code($id->getAttribute('Locale_Code'));
+            }
+        }
         $this->getResponseData()->count = $this->getBeanFinder()->count();
         $routeParams = [];
         $queryParams = [];
