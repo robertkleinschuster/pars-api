@@ -58,7 +58,7 @@ class ApiKeyMiddleware implements MiddlewareInterface
                 $responseData->error = 'Invalid API Key';
             }
         }
-        return (new JsonResponse($responseData, 403))->withHeader('Access-Control-Allow-Origin', '*');
+        return (new JsonResponse($responseData, 401))->withHeader('Access-Control-Allow-Origin', '*');
     }
 
 }
