@@ -160,7 +160,41 @@ abstract class AbstractApiHandler implements RequestHandlerInterface, BeanFinder
                 ($paginationParameter->getPage() - 1) * $paginationParameter->getLimit()
             );
         }
-        $this->getResponseData()->links['self'] = $this->urlHelper->generate(null, $routeParams, $queryParams);
+        $this->getResponseData()->links['self'] = $this->urlHelper->generate(
+            null,
+            $routeParams,
+            $queryParams
+        );
+        for ($i = 1; $i <= $this->getResponseData()->pageCount; $i++) {
+            $paginationParameterList = clone $paginationParameter;
+            $paginationParameterList->setPage($i);
+            $queryParams[$paginationParameterList::name()] = $paginationParameterList->toString();
+            $this->getResponseData()->links['pages'][$i] = $this->urlHelper->generate(
+                null,
+                $routeParams,
+                $queryParams
+            );
+        }
+        if ($paginationParameter->hasPage() && $paginationParameter->getPage() > 1) {
+            $paginationParameterPrev = clone $paginationParameter;
+            $paginationParameterPrev->setPage($paginationParameter->getPage() - 1);
+            $queryParams[$paginationParameterPrev::name()] = $paginationParameterPrev->toString();
+            $this->getResponseData()->links['prev'] = $this->urlHelper->generate(
+                null,
+                $routeParams,
+                $queryParams
+            );
+        }
+        if ($paginationParameter->hasPage() && $paginationParameter->getPage() < $this->getResponseData()->pageCount) {
+            $paginationParameterNext = clone $paginationParameter;
+            $paginationParameterNext->setPage($paginationParameter->getPage() + 1);
+            $queryParams[$paginationParameterNext::name()] = $paginationParameterNext->toString();
+            $this->getResponseData()->links['next'] = $this->urlHelper->generate(
+                null,
+                $routeParams,
+                $queryParams
+            );
+        }
     }
 
     /**
