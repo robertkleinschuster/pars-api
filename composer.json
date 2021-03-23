@@ -14,20 +14,11 @@
     },
     "require": {
         "php": "^7.4",
-        "pars/pars-core": "^1.0.x-dev",
-        "pars/pars-helpers": "^1.0.x-dev",
-        "pars/pars-models": "^1.0.x-dev"
+        "pars/pars-core": "dev-master",
+        "pars/pars-helpers": "dev-master",
+        "pars/pars-models": "dev-master"
     },
     "require-dev": {
-        "phpunit/phpunit": "^9.3.7",
-        "phpspec/prophecy": "^1.10.3",
-        "phpspec/prophecy-phpunit": "^2.0",
-        "squizlabs/php_codesniffer": "^3.5",
-        "composer/package-versions-deprecated": "^1.10.99",
-        "laminas/laminas-component-installer": "^2.1.2",
-        "laminas/laminas-development-mode": "^3.2",
-        "roave/security-advisories": "dev-master",
-        "filp/whoops": "^2.7.1"
     },
     "autoload": {
         "psr-4": {
@@ -42,9 +33,6 @@
     "extra": {
         "branch-alias": {
             "dev-master": "1.0.x-dev"
-        },
-        "laminas": {
-            "module": "Pars\\Api"
         }
     },
     "config": {
@@ -53,30 +41,5 @@
         "classmap-authoritative": true
     },
     "scripts": {
-        "post-update-cmd": [
-            "@clear-config-cache",
-            "php bin/clear-cache.php"
-        ],
-        "post-install-cmd": [
-            "@clear-config-cache",
-            "php bin/clear-cache.php"
-        ],
-        "serve": "php -S 0.0.0.0:8080 -t public/",
-        "post-create-project-cmd": [
-            "@development-enable"
-        ],
-        "development-disable": "laminas-development-mode disable",
-        "development-enable": "laminas-development-mode enable",
-        "development-status": "laminas-development-mode status",
-        "mezzio": "mezzio --ansi",
-        "check": [
-            "@cs-check",
-            "@test"
-        ],
-        "clear-config-cache": "php bin/clear-config-cache.php",
-        "cs-check": "phpcs",
-        "cs-fix": "phpcbf",
-        "test": "phpunit --colors=always",
-        "test-coverage": "phpunit --colors=always --coverage-clover clover.xml"
     }
 }
