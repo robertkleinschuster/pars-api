@@ -19,6 +19,7 @@
         "pars/pars-models": "dev-master"
     },
     "require-dev": {
+        "phpunit/phpunit": "^9.5"
     },
     "autoload": {
         "psr-4": {
