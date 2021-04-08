@@ -9,6 +9,7 @@ if [ ! -d "$name" ]; then
 fi
 
 cd $name
+git pull --rebase
 php /usr/lib64/plesk-9.0/composer.phar update --no-dev --no-interaction &>deploy.log
 
 logger -f deploy.log
