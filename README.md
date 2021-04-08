@@ -1,7 +1,7 @@
 # pars-api
 
-[![Build Status](https://travis-ci.com/robertkleinschuster/pars-api.svg?branch=master)](https://travis-ci.com/robertkleinschuster/pars-api)
-[![Coverage Status](https://coveralls.io/repos/github/robertkleinschuster/pars-api/badge.svg?branch=master)](https://coveralls.io/github/robertkleinschuster/pars-api?branch=master)
+[![Build Status](https://travis-ci.com/pars-framework/pars-api.svg?branch=master)](https://travis-ci.com/pars-framework/pars-api)
+[![Coverage Status](https://coveralls.io/repos/github/pars-framework/pars-api/badge.svg?branch=master)](https://coveralls.io/github/pars-framework/pars-api?branch=master)
 
 This library provides …
 
