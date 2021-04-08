@@ -2,7 +2,7 @@
 
 namespace Pars\Api\Base;
 
-use Niceshops\Bean\Type\Base\AbstractBaseBean;
+use Pars\Bean\Type\Base\AbstractBaseBean;
 
 /**
  * Class ResponseData

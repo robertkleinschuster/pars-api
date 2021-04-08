@@ -5,10 +5,10 @@ namespace Pars\Api\Base;
 use Laminas\Db\Adapter\Adapter;
 use Laminas\Diactoros\Response\JsonResponse;
 use Mezzio\Helper\UrlHelper;
-use Niceshops\Bean\Finder\BeanFinderAwareInterface;
-use Niceshops\Bean\Finder\BeanFinderAwareTrait;
-use Niceshops\Bean\Processor\BeanProcessorAwareInterface;
-use Niceshops\Bean\Processor\BeanProcessorAwareTrait;
+use Pars\Bean\Finder\BeanFinderAwareInterface;
+use Pars\Bean\Finder\BeanFinderAwareTrait;
+use Pars\Bean\Processor\BeanProcessorAwareInterface;
+use Pars\Bean\Processor\BeanProcessorAwareTrait;
 use Pars\Helper\Parameter\IdParameter;
 use Pars\Helper\Parameter\InvalidParameterException;
 use Pars\Helper\Parameter\PaginationParameter;
@@ -80,8 +80,8 @@ abstract class AbstractApiHandler implements RequestHandlerInterface, BeanFinder
      * @param ServerRequestInterface $request
      * @return ResponseInterface
      * @throws ApiException
-     * @throws \Niceshops\Core\Exception\AttributeExistsException
-     * @throws \Niceshops\Core\Exception\AttributeLockException
+     * @throws \Pars\Pattern\Exception\AttributeExistsException
+     * @throws \Pars\Pattern\Exception\AttributeLockException
      */
     public function handle(ServerRequestInterface $request): ResponseInterface
     {
@@ -131,7 +131,7 @@ abstract class AbstractApiHandler implements RequestHandlerInterface, BeanFinder
     /**
      * @param IdParameter $id
      * @param PaginationParameter $paginationParameter
-     * @throws \Niceshops\Core\Exception\AttributeNotFoundException
+     * @throws \Pars\Pattern\Exception\AttributeNotFoundException
      */
     protected function initFinder(IdParameter $id, PaginationParameter $paginationParameter)
     {

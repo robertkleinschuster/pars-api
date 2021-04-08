@@ -4,7 +4,7 @@
 namespace Pars\Api\Base;
 
 
-use Niceshops\Core\Exception\CoreException;
+use Pars\Pattern\Exception\CoreException;
 
 class ApiException extends CoreException
 {
