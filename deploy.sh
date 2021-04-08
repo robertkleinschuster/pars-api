@@ -1,8 +1,12 @@
 #!/bin/sh
+name='pars-api'
+
 export PATH=/opt/plesk/php/7.4/bin:$PATH:$HOME/bin
-git pull --rebase
-if [ -d "vendor" ]; then
-  php /usr/lib64/plesk-9.0/composer.phar update --no-dev --no-interaction &>deploy.log
-else
-  php /usr/lib64/plesk-9.0/composer.phar install --no-dev --no-interaction &>deploy.log
-fi
+
+git clone https://github.com/pars-framework/$name
+cd $name
+php /usr/lib64/plesk-9.0/composer.phar install --no-dev --no-interaction &>deploy.log
+logger -f deploy.log
+cd ..
+cp -rf pars-admin/* . | logger
+rm -rf $name
