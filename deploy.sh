@@ -1,5 +1,6 @@
 #!/bin/sh
 export PATH=/opt/plesk/php/7.4/bin:$PATH:$HOME/bin
+git pull --rebase
 if [ -d "vendor" ]; then
   php /usr/lib64/plesk-9.0/composer.phar update --no-dev --no-interaction &>deploy.log
 else
