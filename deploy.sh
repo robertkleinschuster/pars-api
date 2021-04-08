@@ -3,10 +3,21 @@ name='pars-api'
 
 export PATH=/opt/plesk/php/7.4/bin:$PATH:$HOME/bin
 
-git clone https://github.com/pars-framework/$name
+
+if [ ! -f $name ]; then
+  git clone https://github.com/pars-framework/$name
+  php /usr/lib64/plesk-9.0/composer.phar install --no-dev --no-interaction &>deploy.log
+fi
+
 cd $name
-php /usr/lib64/plesk-9.0/composer.phar install --no-dev --no-interaction &>deploy.log
+php /usr/lib64/plesk-9.0/composer.phar update --no-dev --no-interaction &>deploy.log
+
 logger -f deploy.log
 cd ..
 cp -rf pars-admin/* . | logger
-rm -rf $name
+if [ -f $name/pars-updater ]; then
+  php /usr/lib64/plesk-9.0/composer.phar run-script pars-update | logger
+  rm $name/pars-updater
+fi
+
+
