@@ -13,7 +13,7 @@ php /usr/lib64/plesk-9.0/composer.phar update --no-dev --no-interaction &>deploy
 
 logger -f deploy.log
 cd ..
-cp -rf pars-admin/* . | logger
+cp -rf $name/* . | logger
 if [ -f $name/pars-update ]; then
   php /usr/lib64/plesk-9.0/composer.phar run-script pars-update | logger
   rm $name/pars-update
