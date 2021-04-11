@@ -15,7 +15,6 @@ class ApplicationContainerFactory
     public function __invoke()
     {
         $config = $this->getApplicationConfig();
-        CacheClearer::registerConfigCacheFunction($config);
         $dependencies = $config['dependencies'];
         $dependencies['services']['config'] = $config;
         return new ApplicationContainer($dependencies);
