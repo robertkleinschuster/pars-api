@@ -4,21 +4,20 @@ declare(strict_types=1);
 
 namespace Pars\Api;
 
-use Pars\Core\Deployment\CacheClearer;
+use Pars\Core\Application\AbstractApplicationContainer;
+use Pars\Core\Application\AbstractApplicationContainerFactory;
 
 /**
  * Class ApplicationContainerFactory
  * @package Pars\Api
  */
-class ApplicationContainerFactory
+class ApplicationContainerFactory extends AbstractApplicationContainerFactory
 {
-    public function __invoke()
+    protected function createApplicationContainer(array $dependencies): AbstractApplicationContainer
     {
-        $config = $this->getApplicationConfig();
-        $dependencies = $config['dependencies'];
-        $dependencies['services']['config'] = $config;
         return new ApplicationContainer($dependencies);
     }
+
 
     protected function getApplicationConfig(): array
     {

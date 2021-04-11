@@ -3,28 +3,33 @@
 namespace Pars\Api;
 
 use Laminas\HttpHandlerRunner\RequestHandlerRunner;
-use Mezzio\Application;
+use Laminas\Stratigility\MiddlewarePipeInterface;
 use Mezzio\MiddlewareFactory;
 use Mezzio\Router\RouteCollector;
-use Psr\Container\ContainerInterface;
+use Pars\Core\Application\AbstractApplication;
+use Pars\Core\Application\AbstractApplicationContainer;
+use Pars\Core\Application\AbstractApplicationFactory;
 
 /**
  * Class ApplicationFactory
  * @package Pars\Api
  */
-class ApplicationFactory extends \Mezzio\Container\ApplicationFactory
+class ApplicationFactory extends AbstractApplicationFactory
 {
-    public function __invoke(ContainerInterface $container): Application
+    protected function createApplication(MiddlewareFactory $factory, MiddlewarePipeInterface $pipeline, RouteCollector $routes, RequestHandlerRunner $runner): AbstractApplication
     {
-        $app = new Application(
-            $container->get(MiddlewareFactory::class),
-            $container->get('Mezzio\ApplicationPipeline'),
-            $container->get(RouteCollector::class),
-            $container->get(RequestHandlerRunner::class)
-        );
-        $factory = $container->get(\Mezzio\MiddlewareFactory::class);
-        (require realpath(implode(DIRECTORY_SEPARATOR, [__DIR__, '..', 'config', 'pipeline.php'])))($app, $factory, $container);
-        (require realpath(implode(DIRECTORY_SEPARATOR, [__DIR__, '..', 'config', 'routes.php'])))($app, $factory, $container);
-        return $app;
+        return new \Pars\Api\Application($factory, $pipeline, $routes, $runner);
     }
+
+    protected function initPipeline(AbstractApplication $app, MiddlewareFactory $factory, AbstractApplicationContainer $container)
+    {
+        (require realpath(implode(DIRECTORY_SEPARATOR, [__DIR__, '..', 'config', 'pipeline.php'])))($app, $factory, $container);
+    }
+
+    protected function initRoutes(AbstractApplication $app, MiddlewareFactory $factory, AbstractApplicationContainer $container)
+    {
+        (require realpath(implode(DIRECTORY_SEPARATOR, [__DIR__, '..', 'config', 'routes.php'])))($app, $factory, $container);
+    }
+
+
 }

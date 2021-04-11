@@ -2,13 +2,13 @@
 
 namespace Pars\Api;
 
-use Laminas\ServiceManager\ServiceManager;
+use Pars\Core\Application\AbstractApplicationContainer;
 
 /**
  * Class ApplicationContainer
  * @package Pars\Api
  */
-class ApplicationContainer extends ServiceManager
+class ApplicationContainer extends AbstractApplicationContainer
 {
 
 }
