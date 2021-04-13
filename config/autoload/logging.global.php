@@ -2,7 +2,7 @@
 
 return [
     'psr_log' => [
-        'Logger' => [
+        \Psr\Log\LoggerInterface::class => [
             'writers' => [
                 'syslog' => [
                     'options' => [
